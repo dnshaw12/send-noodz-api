@@ -24,8 +24,7 @@ const ingredientSchema = new mongoose.Schema({
 	},
 	image: {
 		data: Buffer,
-		contentType: String,
-		required: true
+		contentType: String
 	},
 	inStock: {
 		type: Boolean,
@@ -40,7 +39,7 @@ const ingredientSchema = new mongoose.Schema({
 })
 
 
-
+module.exports = mongoose.model('Ingredient', ingredientSchema)
 
 
 

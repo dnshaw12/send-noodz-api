@@ -8,6 +8,7 @@ const PORT 				= process.env.PORT || 3000;
 require('./db/db');
 
 // CONTROLLERS GO HERE
+const ingredientsController = require('./controllers/ingredientsController')
 
 app.use(session({
 	secret: process.env.SECRET_STRING,
@@ -16,6 +17,8 @@ app.use(session({
 }));
 
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.use('/ingredients', ingredientsController)
 
 
 // extra middleware goes here
