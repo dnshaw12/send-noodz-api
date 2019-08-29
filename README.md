@@ -11,6 +11,10 @@
 	* String
 4. Address
 	* String (mulitple fields)
+5. Profile Pic
+	* File
+6. Past Orders
+	* Array of Order IDs
 
 ### Order
 1. Dishes
