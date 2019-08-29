@@ -5,13 +5,17 @@ const orderSchema = new mongoose.Schema({
 	userID: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
-		requires: true
+		required: true
 	},
+	delivery: {
+		type: Boolean,
+		required: true
+	}
 	dishes: [Dish.schema],
 	status: {
 		type: String,
 		enum: ['received', 'prepping', 'complete', 'archived'],
-		requires: true
+		required: true
 	},
 	deliveryInstructions: String,
 	address: {
@@ -20,6 +24,10 @@ const orderSchema = new mongoose.Schema({
 		city: String, 
 		state: String, 
 		zip: String
+	},
+	createdDate: {
+		type: Date,
+		default: Date.now
 	}
 })
 

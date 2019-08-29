@@ -29,12 +29,10 @@
 
 ### OrderedDish -- when someone actually orders something 
 1. Menu Item Id
-1. Ingredients
+3. Extra Ingredients -- cost money
 	* Array of Ingredient ID
-4. SpecialInstructions
+2. SpecialInstructions
 	* String
-1. Extra Ingredients -- cost money
-	* Array of Ingredient ID
 
 
 ## MenuItem -- what you can order
