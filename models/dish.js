@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ingreditent = require('./ingreditent')
+const Ingreditent = require('./ingreditent')
 
 const dishSchema = new mongoose.Schema({
 	menuItemId: {
