@@ -12,6 +12,16 @@ const dishSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
+	total: function(){
+		let extraIngredientsTotal = 0
+
+		extraIngredients.forEach((ingreditent) => {
+			extraIngredientsTotal =+ ingreditent.price
+		})
+
+		return menuItemId.basePrice + extraIngredientsTotal
+
+	}
 })
 
 module.exports = mongoose.model('Dish', dishSchema)
