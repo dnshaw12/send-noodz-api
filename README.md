@@ -21,14 +21,10 @@
 	* Array of Dish Subdocuments
 2. Status
 	* String
-3. Complete
-	* Boolean
-4. DeliveryInstructions
+3. DeliveryInstructions
 	* String
-5. Address 
+4. Address 
 	* String (mulitple fields)
-6. Total
-	* Float (total of dishes)
 
 
 ### OrderedDish -- when someone actually orders something 
