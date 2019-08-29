@@ -13,12 +13,12 @@
 	* String (mulitple fields)
 5. Profile Pic
 	* File
-6. Past Orders
-	* Array of Order IDs
 
 ### Order
+0. User Id
+
 1. Dishes
-	* Array of Dish IDs
+	* Array of Dish Subdocuments
 2. Status
 	* String
 3. Complete
@@ -30,24 +30,34 @@
 6. Total
 	* Float (total of dishes)
 
-### Dish
+
+### OrderedDish -- when someone actually orders something 
+1. Menu Item Id
+1. Ingredients
+	* Array of Ingredient ID
+4. SpecialInstructions
+	* String
+1. Extra Ingredients -- cost money
+	* Array of Ingredient ID
+
+
+## MenuItem -- what you can order
+0. Name -- Build your own
 1. NoodleType
 	* Ingredient ID
 2.	Protein
 	* Ingredient ID
-3. Ingredients
-	* Array of Ingredient ID
-4. SpecialInstructions
-	* String
-6. Total
-	* Float
+3. Base Ingredients 
+5. BasePrice
+	* Number
+
 
 ### Ingredient
 1. Name
 	* String
-2. Type
+2. Type - Enum
 	* String (protein, noodle, general etc.)
-3. Vegitarian
+3. Vegetarian
 	* Boolean
 4. Vegan
 	* Boolean
@@ -55,6 +65,10 @@
 	* Float (certain ingredients cost more)
 6. Image
 	* File (multer)
+7. inStock
+	* Boolean
+8. archived
+	* Boolean
 
 
 
