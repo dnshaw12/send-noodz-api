@@ -15,7 +15,7 @@ app.use(session({
 	saveUninitialized: false
 }));
 
-app.user(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 
 // extra middleware goes here
