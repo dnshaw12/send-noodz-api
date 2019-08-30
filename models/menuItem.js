@@ -14,7 +14,11 @@ const menuItemSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	baseIngredients: [Ingreditent.schema],
+	baseIngredients: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Ingreditent',
+		required: true
+	}],
 	basePrice: {
 		type: Number,
 		required: true
