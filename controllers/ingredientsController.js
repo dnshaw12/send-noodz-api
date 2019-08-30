@@ -8,7 +8,7 @@ const upload = multer({dest: 'uploads/'})
 // create new ingredient
 
 router.post('/', upload.single('image'), async (req, res, next) => {
-	console.log("hey");
+
 	try {
 		
 		if (req.body.vegitarian === 'on') {
@@ -68,12 +68,11 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+// delete ingredient
+
 router.delete('/:id', async (req, res, next) => {
 
-	console.log('deletedIngredient hit');
 	try {
-
-		console.log(req.params.id);
 		
 		const deletedIngredient = await Ingredient.findOneAndDelete({_id: req.params.id})
 
@@ -87,7 +86,49 @@ router.delete('/:id', async (req, res, next) => {
 	}
 })
 
+router.put('/:id', upload.single('image'), async (req, res, next) => {
+	
+	try {
+		
+		console.log('Ingredient put hit');
+		
+		if (req.body.vegitarian === 'on') {
+			req.body.vegitarian = true
+		} else {
+			req.body.vegitarian = false
+		}
 
+		if (req.body.vegan === 'on') {
+			req.body.vegan = true
+		} else {
+			req.body.vegan = false
+		}
+
+		const updatedIngredient = await Ingredient.findByIdAndUpdate(req.params.id ,req.body, {new: true})
+
+		if (req.file) {	
+			const filePath = './uploads/' + req.file.filename
+			updatedIngredient.image.data = fs.readFileSync(filePath)
+			updatedIngredient.image.contentType = req.file.mimetype
+
+			fs.unlinkSync(filePath)
+		}
+
+		await updatedIngredient.save()
+
+		console.log(updatedIngredient);
+
+		res.status(200).send({
+			message: `${updatedIngredient.name} have been updated successfully!`,
+			data: updatedIngredient
+		})
+
+
+	} catch(err){
+	  next(err);
+	}
+
+})
 
 
 
