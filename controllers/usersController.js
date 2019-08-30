@@ -126,5 +126,21 @@ router.put('/:id', upload.single('profilePic'), async (req, res, next) => {
 
 })
 
+router.get('/:id/profilePic', async (req, res, next) => {
+	
+	try {
+		
+		const user = await User.findById(req.params.id)
+
+		res.set('Content-Type', user.profilePic.contentType)
+
+		res.send(user.profilePic.data)
+
+	} catch(err){
+	  next(err);
+	}
+
+})
+
 
 module.exports = router;
