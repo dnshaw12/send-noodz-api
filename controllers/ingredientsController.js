@@ -130,7 +130,21 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 })
 
+router.get('/:id/image', async (req, res, next) => {
+	
+	try {
+		
+		const ingredient = await Ingredient.findById(req.params.id)
 
+		res.set('Content-Type', ingredient.image.contentType)
+
+		res.send(ingredient.image.data)
+
+	} catch(err){
+	  next(err);
+	}
+
+})
 
 
 
