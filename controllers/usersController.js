@@ -46,7 +46,39 @@ router.post('/', upload.single('profilePic'), async (req, res, next) => {
 
 })
 
+// get all users for testing purposes. not needed for actual app 
 
+router.get('/', async (req, res, next) => {
+	
+	try {
+		const users = await User.find({},{password: 0, profilePic: 0})
+
+		res.send({data:users})
+	} catch(err){
+	  next(err);
+	}
+
+})
+
+// get single user
+
+router.get('/:id', async (req, res, next) => {
+	
+	try {
+		
+		const user = await User.findById(req.params.id, {password: 0})
+
+		res.status(200).send({
+			message:'successfully got user',
+			data: user
+		})
+
+	} catch(err){
+	  next(err);
+	}
+
+
+})
 
 
 
