@@ -47,4 +47,23 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 
 })
 
+router.get('/', async (req, res, next) => {
+
+	console.log('Ingredients get all hit');
+	try {
+		
+		const allIngredients = await Ingredient.find({},{image: 0})
+
+		console.log(allIngredients);
+
+		res.status(200).send({
+			message: 'Successfully got all Ingredients',
+			data: allIngredients
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
 module.exports = router;
