@@ -17,11 +17,23 @@ const userSchema = new mongoose.Schema({
 		type: String
 	},
 	address: {
-		addr1: String, 
+		addr1: {
+			type: String,
+			required: true
+		},
 		addr2: String, 
-		city: String, 
-		state: String, 
-		zip: String
+		city: {
+			type: String,
+			required: true
+		}, 
+		state: {
+			type: String,
+			required: true
+		}, 
+		zip: {
+			type: String,
+			required: true
+		}
 	},
 	profilePic: {
 		data: Buffer,

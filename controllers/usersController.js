@@ -11,13 +11,13 @@ router.post('/', upload.single('profilePic'), async (req, res, next) => {
 	
 	try {
 
-		req.body.location = {}
+		req.body.address = {}
 
-		req.body.location.addr1 = req.body.addr1
-		req.body.location.addr2 = req.body.addr2
-		req.body.location.city = req.body.city
-		req.body.location.state = req.body.state
-		req.body.location.zip = req.body.zip
+		req.body.address.addr1 = req.body.addr1
+		req.body.addr2 ? req.body.address.addr2 = req.body.addr2 : req.body.address.addr2 = null
+		req.body.address.city = req.body.city
+		req.body.address.state = req.body.state
+		req.body.address.zip = req.body.zip
 
 		req.body.password = await bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
 		
@@ -80,7 +80,51 @@ router.get('/:id', async (req, res, next) => {
 
 })
 
+router.put('/:id', upload.single('profilePic'), async (req, res, next) => {
+	
+	try {
 
+		console.log('user put');
+
+		const currentUser = await User.findById(req.params.id)
+
+		req.body.address = {}
+		console.log(currentUser);
+		console.log(req.body);
+
+		req.body.address.addr1 = req.body.addr1
+		req.body.address.addr2 = req.body.addr2
+		req.body.address.city = req.body.city
+		req.body.address.state = req.body.state
+		req.body.address.zip = req.body.zip
+
+		if (req.body.password) {
+			req.body.password = await bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+		}  
+		
+		const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+
+		if (req.file) {
+			const filePath = './uploads/' + req.file.filename
+			updatedUser.profilePic.data = fs.readFileSync(filePath)
+			updatedUser.profilePic.contentType = req.file.mimetype
+
+			fs.unlinkSync(filePath)
+		}
+
+		await updatedUser.save()
+
+		res.status(201).send({
+			message: 'User updated successfully',
+			data: updatedUser
+		})
+
+	} catch(err){
+	  next(err);
+	}
+
+
+})
 
 
 module.exports = router;
