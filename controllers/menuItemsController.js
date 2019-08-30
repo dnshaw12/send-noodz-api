@@ -8,6 +8,8 @@ const upload = multer({dest: 'uploads/'})
 router.post('/', upload.single('image'), async (req, res, next) => {
 	
 	try {
+
+		console.log(req.body, '<<<< body in create menu item');
 		
 		const newMenuItem = await MenuItem.create(req.body)
 
@@ -32,6 +34,8 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 	}
 })
 
+
+
 router.get('/', async (req, res, next) => {
 	try {
 		
@@ -42,6 +46,36 @@ router.get('/', async (req, res, next) => {
 		res.status(200).send({
 			mesage: 'get all mennu items success',
 			data: menuItems
+		})
+
+
+	} catch(err){
+	  next(err);
+	}
+})
+
+router.put('/:id', upload.single('image'), async (req, res, next) => {
+	try {
+
+		console.log(req.params.id, req.body, '<<<<<< req.body');
+		
+		const updatedMenuItem = await MenuItem.findByIdAndUpdate(req.params.id, req.body, {new: true})
+
+		console.log(updatedMenuItem);
+
+		if (req.file) {
+			const filePath = './uploads/' + req.file.filename
+			updatedMenuItem.image.data = fs.readFileSync(filePath)
+			updatedMenuItem.image.contentType = req.file.mimetype
+
+			fs.unlinkSync(filePath)
+		}
+
+		await updatedMenuItem.save()
+
+		res.status(200).send({
+			message: `${updatedMenuItem.name} have been updated successfully!`,
+			data: updatedMenuItem
 		})
 
 
