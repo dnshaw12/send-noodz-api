@@ -84,7 +84,20 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 	}
 })
 
+router.delete('/:id', async (req, res, next) => {
+	try {
+		
+		const deletedMenuItem = await MenuItem.findOneAndDelete({_id: req.params.id})
 
+		res.status(200).send({
+			message: `menu item successfully deleted`,
+			data: deletedMenuItem
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
 
 
 module.exports = router;
