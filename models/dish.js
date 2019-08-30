@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Ingreditent = require('./ingreditent')
+const Ingredient = require('./ingredient')
 
 const dishSchema = new mongoose.Schema({
 	menuItemId: {
@@ -8,7 +8,7 @@ const dishSchema = new mongoose.Schema({
 	},
 	extraIngredients: [{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Ingreditent',
+		ref: 'Ingredient',
 		required: true
 	}],
 	specialInstructions: String,
@@ -19,8 +19,8 @@ const dishSchema = new mongoose.Schema({
 	total: function(){
 		let extraIngredientsTotal = 0
 
-		extraIngredients.forEach((ingreditent) => {
-			extraIngredientsTotal =+ ingreditent.price
+		extraIngredients.forEach((ingredient) => {
+			extraIngredientsTotal =+ ingredient.price
 		})
 
 		return menuItemId.basePrice + extraIngredientsTotal

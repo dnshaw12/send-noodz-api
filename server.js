@@ -10,6 +10,7 @@ require('./db/db');
 // CONTROLLERS GO HERE
 const ingredientsController = require('./controllers/ingredientsController')
 const usersController = require('./controllers/usersController')
+const menuItemsController = require('./controllers/menuItemsController')
 
 app.use(session({
 	secret: process.env.SECRET_STRING,
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/ingredients', ingredientsController)
 app.use('/users', usersController)
+app.use('/menuItems', menuItemsController)
 
 
 // extra middleware goes here

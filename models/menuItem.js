@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Ingreditent = require('./ingreditent')
+const Ingredient = require('./ingredient')
 
 const menuItemSchema = new mongoose.Schema({
 	name: {
@@ -7,21 +7,26 @@ const menuItemSchema = new mongoose.Schema({
 		required: true
 	},
 	noodleType: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Ingredient',
 		required: true
 	},
 	protein: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Ingredient',
 		required: true
 	},
 	baseIngredients: [{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Ingreditent',
-		required: true
+		ref: 'Ingredient',
 	}],
 	basePrice: {
 		type: Number,
 		required: true
+	},
+	image: {
+		data: Buffer,
+		contentType: String
 	}
 })
 

@@ -146,7 +146,4 @@ router.get('/:id/image', async (req, res, next) => {
 
 })
 
-
-
-
 module.exports = router;

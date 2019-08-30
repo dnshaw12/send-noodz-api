@@ -7,7 +7,7 @@ const ingredientSchema = new mongoose.Schema({
 	},
 	type: {
 		type: String,
-		enum: ['noodle','protein','normal'],
+		enum: ['noodle','protein','normal','sauce'],
 		required: true
 	},
 	vegitarian: {
