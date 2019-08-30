@@ -32,7 +32,23 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 	}
 })
 
+router.get('/', async (req, res, next) => {
+	try {
+		
+		const menuItems = await MenuItem.find({},{image: 0}).populate('baseIngredients noodleType protein')
 
+		console.log(menuItems);
+
+		res.status(200).send({
+			mesage: 'get all mennu items success',
+			data: menuItems
+		})
+
+
+	} catch(err){
+	  next(err);
+	}
+})
 
 
 
