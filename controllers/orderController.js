@@ -33,8 +33,49 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 	}
 })
 
+router.get('/', async (req, res, next) => {
+	try {
+		
+		const orders = await Order.find()
 
+		res.status(200).send({
+			message: "got all orders",
+			data: orders
+		})
 
+	} catch(err){
+	  next(err);
+	}
+})
 
+// order id for testing : 5d6c565b3f623709acf7ff0e
+
+router.get('/:id', async (req, res, next) => {
+	try {
+		
+		const order = await Order.findById(req.params.id).populate('userId', 
+				{
+					profilePic: 0,
+					password: 0
+				})
+			.populate('dishes.extraIngredients')
+			.populate({
+				path: 'dishes.menuItemId',
+				populate: [
+					{ path: 'protein'},
+					{ path: 'noodleType' },
+					{ path: 'baseIngredients' }
+				]
+			})
+
+		res.status(200).send({
+			message: 'got one order',
+			data: order
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
 
 module.exports = router
