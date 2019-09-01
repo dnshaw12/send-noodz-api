@@ -102,4 +102,19 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 	}
 })
 
+router.delete('/:id', async (req, res, next) => {
+	try {
+		
+		const deletedOrder = await Order.findByIdAndDelete(req.params.id)
+
+		res.status(200).send({
+			message: 'order successfully deleted',
+			data: deletedOrder
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
 module.exports = router
