@@ -48,6 +48,21 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+router.delete('/:id', async (req, res, next) => {
+	try {
+		
+		const deletedDish = await Dish.findByIdAndDelete(req.params.id)
+
+		res.status(200).send({
+			message: 'dish successfully deleted',
+			data: deletedDish
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
 
 
 
