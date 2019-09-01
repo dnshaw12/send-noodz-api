@@ -63,6 +63,25 @@ router.delete('/:id', async (req, res, next) => {
 	}
 })
 
+router.put('/:id', upload.single('image'), async (req, res, next) => {
+	
+	try {
+
+		console.log(req.body, 'body in update dish!', req.params.id);
+		
+		const updatedDish = await Dish.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+		res.status(200).send({
+			message: 'dish successfully updated',
+			data: updatedDish
+		})
+
+	} catch(err){
+	  next(err);
+	}
+
+})
+
 
 
 
