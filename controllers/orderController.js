@@ -78,4 +78,28 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+router.put('/:id', upload.single('image'), async (req, res, next) => {
+
+	try {
+
+		req.body.address = {}
+
+		req.body.address.addr1 = req.body.addr1
+		req.body.address.addr2 = req.body.addr2
+		req.body.address.city = req.body.city
+		req.body.address.state = req.body.state
+		req.body.address.zip = req.body.zip
+		
+		const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {new:true})
+
+		res.status(200).send({
+			message: 'order has been updated successfully',
+			data: updatedOrder
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
 module.exports = router
