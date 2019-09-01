@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Dish		= require('./dish')
 
 const orderSchema = new mongoose.Schema({
-	userID: {
+	userId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
@@ -10,12 +10,13 @@ const orderSchema = new mongoose.Schema({
 	delivery: {
 		type: Boolean,
 		required: true
-	}
+	},
 	dishes: [Dish.schema],
 	status: {
 		type: String,
 		enum: ['received', 'prepping', 'complete', 'archived'],
-		required: true
+		required: true,
+		default: 'received'
 	},
 	deliveryInstructions: String,
 	address: {
