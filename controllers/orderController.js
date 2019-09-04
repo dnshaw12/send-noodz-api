@@ -77,6 +77,62 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+router.get('/:userId/past', async (req, res, next) => {
+	try {
+		
+		const orders = await Order.find({uesrId: req.params.id, status: 'archived'}).populate('userId', 
+				{
+					profilePic: 0,
+					password: 0
+				})
+			.populate({
+				path: 'dishes.menuItemId',
+				populate: [
+					{ path: 'protein'},
+					{ path: 'noodleType' },
+					{ path: 'baseIngredients' },
+					{ path: 'sauce' }
+				]
+			})
+
+		res.status(200).send({
+			message: 'got one order',
+			data: orders
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
+router.get('/:userId/active', async (req, res, next) => {
+	try {
+		
+		const orders = await Order.find({uesrId: req.params.id, status: { $nin: ['archived', 'pending']}}).populate('userId', 
+				{
+					profilePic: 0,
+					password: 0
+				})
+			.populate({
+				path: 'dishes.menuItemId',
+				populate: [
+					{ path: 'protein'},
+					{ path: 'noodleType' },
+					{ path: 'baseIngredients' },
+					{ path: 'sauce' }
+				]
+			})
+
+		res.status(200).send({
+			message: 'got one order',
+			data: orders
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
 router.put('/:id', async (req, res, next) => {
 
 	try {
