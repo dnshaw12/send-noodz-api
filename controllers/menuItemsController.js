@@ -39,7 +39,7 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 router.get('/', async (req, res, next) => {
 	try {
 		
-		const menuItems = await MenuItem.find({},{image: 0}).populate('baseIngredients noodleType protein')
+		const menuItems = await MenuItem.find({},{image: 0}).populate('baseIngredients noodleType protein sauce')
 
 		console.log(menuItems);
 

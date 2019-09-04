@@ -8,9 +8,6 @@ const upload = multer({dest: 'uploads/'})
 router.post('/', upload.single('image'), async (req, res, next) => {
 	console.log(req.body, 'body in order creation');
 
-	// dish for testing : 5d6c09316ee56208e6967623
-	// user for testing : 5d694d0fe12a27064632f82f
-
 	try {
 
 		req.body.address = {}
@@ -116,5 +113,8 @@ router.delete('/:id', async (req, res, next) => {
 	  next(err);
 	}
 })
+// 5d6ec84453c292187c1025c0 - byon
+// 5d6ec7f953c292187c1025be - cust. nood
+// 5d6ec7fe53c292187c1025bf - cust. protein
 
 module.exports = router

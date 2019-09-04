@@ -7,9 +7,7 @@ const upload = multer({dest: 'uploads/'})
 const bcrypt  = require('bcryptjs');
 
 
-router.post('/', upload.single('profilePic'), async (req, res, next) => {
-
-	console.log(req.body.things);
+router.post('/sign-up', upload.single('profilePic'), async (req, res, next) => {
 	
 	try {
 
@@ -36,15 +34,59 @@ router.post('/', upload.single('profilePic'), async (req, res, next) => {
 
 		await newUser.save()
 
+		const sendableResponse = newUser
+
+		delete sendableResponse.password
+
 		res.status(201).send({
 			message: 'User created successfully',
-			data: newUser
+			data: sendableResponse
 		})
+
+	} catch(err){
+	  // res.send(err)
+	  next(err);
+	}
+
+
+})
+
+router.post('/login', upload.single('profilePic'), async (req, res, next) => {
+
+	try {
+		console.log('login hit', req.body);
+		
+		const foundUser = await User.findOne({'email': req.body.email})
+
+		console.log(foundUser,'foundUser');
+
+		console.log(foundUser);
+
+		if (foundUser) {
+			if (bcrypt.compareSync(req.body.password, foundUser.password)) {
+				req.session.userId = foundUser._id;
+	      	req.session.name = foundUser.name;
+
+	      	res.status(200).send({
+	      		message: 'user successfully logged in',
+	      		data: foundUser
+	      	})
+			} else {
+				res.status(400).send({
+	      		message: 'user email or password incorrect',
+	      		data: {}
+	      	})
+			}
+		} else {
+			res.status(400).send({
+      		message: 'no user with that email',
+      		data: {}
+      	})
+		}
 
 	} catch(err){
 	  next(err);
 	}
-
 
 })
 
@@ -141,6 +183,7 @@ router.get('/:id/profilePic', async (req, res, next) => {
 
 	} catch(err){
 	  next(err);
+	  res.send(err)
 	}
 
 })

@@ -16,6 +16,11 @@ const menuItemSchema = new mongoose.Schema({
 		ref: 'Ingredient',
 		required: true
 	},
+	sauce: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Ingredient',
+		required: true
+	},
 	baseIngredients: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Ingredient',

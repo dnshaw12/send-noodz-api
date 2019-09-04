@@ -4,10 +4,11 @@ const Dish = require('../models/dish')
 const multer = require('multer')
 const MenuItem = require('../models/menuItem')
 const upload = multer({dest: 'uploads/'})
+const bp = require('body-parser')
 
 // byon id for testing = 5d6c0512034b560872b84b32
 
-router.post('/', upload.single('image'), async (req, res, next) => {
+router.post('/', async (req, res, next) => {
 	
 	try {
 		console.log(req.body, 'body in dish creator');
