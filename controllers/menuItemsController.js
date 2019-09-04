@@ -9,12 +9,6 @@ const upload = multer({dest: 'uploads/'})
 router.post('/', upload.single('image'), async (req, res, next) => {
 	
 	try {
-
-		console.log(req.body, '<<<< body in create menu item');
-
-		req.body.noodleType = await Ingredient.findById(req.body.noodleType)
-		req.body.protein = await Ingredient.findById(req.body.protein)
-		req.body.sauce = await Ingredient.findById(req.body.sauce)
 		
 		const newMenuItem = await MenuItem.create(req.body)
 
@@ -46,8 +40,6 @@ router.get('/', async (req, res, next) => {
 		
 		const menuItems = await MenuItem.find({},{image: 0}).populate('baseIngredients noodleType protein sauce')
 
-		console.log(menuItems);
-
 		res.status(200).send({
 			mesage: 'get all mennu items success',
 			data: menuItems
@@ -61,12 +53,8 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:id', upload.single('image'), async (req, res, next) => {
 	try {
-
-		console.log(req.params.id, req.body, '<<<<<< req.body');
 		
 		const updatedMenuItem = await MenuItem.findByIdAndUpdate(req.params.id, req.body, {new: true})
-
-		console.log(updatedMenuItem);
 
 		if (req.file) {
 			const filePath = './uploads/' + req.file.filename

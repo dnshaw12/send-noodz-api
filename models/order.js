@@ -14,9 +14,9 @@ const orderSchema = new mongoose.Schema({
 	dishes: [Dish.schema],
 	status: {
 		type: String,
-		enum: ['received', 'prepping', 'complete', 'archived'],
+		enum: ['pending','received', 'prepping', 'complete', 'archived'],
 		required: true,
-		default: 'received'
+		default: 'pending'
 	},
 	deliveryInstructions: String,
 	address: {

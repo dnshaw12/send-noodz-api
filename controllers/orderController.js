@@ -7,7 +7,6 @@ const fs = require('fs')
 const upload = multer({dest: 'uploads/'})
 
 router.post('/', upload.single('image'), async (req, res, next) => {
-	console.log(req.body, 'body in order creation');
 
 	try {
 
@@ -58,13 +57,13 @@ router.get('/:id', async (req, res, next) => {
 					profilePic: 0,
 					password: 0
 				})
-			.populate('dishes.extraIngredients')
 			.populate({
 				path: 'dishes.menuItemId',
 				populate: [
 					{ path: 'protein'},
 					{ path: 'noodleType' },
-					{ path: 'baseIngredients' }
+					{ path: 'baseIngredients' },
+					{ path: 'sauce' }
 				]
 			})
 
@@ -78,7 +77,7 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
-router.put('/:id', upload.single('image'), async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
 
 	try {
 
