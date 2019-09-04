@@ -3,6 +3,7 @@ const router  = express.Router();
 const Dish = require('../models/dish')
 const multer = require('multer')
 const MenuItem = require('../models/menuItem')
+const Ingredient = require('../models/ingredient')
 const upload = multer({dest: 'uploads/'})
 const bp = require('body-parser')
 
@@ -11,7 +12,10 @@ const bp = require('body-parser')
 router.post('/', async (req, res, next) => {
 	
 	try {
-		console.log(req.body, 'body in dish creator');
+
+		req.body.extraIngredients = await Ingredient.find({_id:{$in:req.body.extraIngredients}})
+
+		console.log(req.body.extraIngredients, 'extraIngredients');
 		
 		const newDish = await Dish.create(req.body)
 

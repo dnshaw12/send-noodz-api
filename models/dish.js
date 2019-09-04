@@ -6,11 +6,7 @@ const dishSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MenuItem'
 	},
-	extraIngredients: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Ingredient',
-		required: true
-	}],
+	extraIngredients: [Ingredient.schema],
 	specialInstructions: String,
 	createdDate: {
 		type: Date,
