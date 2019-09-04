@@ -2,6 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const multer = require('multer')
 const Order = require('../models/order')
+const Dish = require('../models/dish')
 const fs = require('fs')
 const upload = multer({dest: 'uploads/'})
 
@@ -17,6 +18,8 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 		req.body.address.city = req.body.city
 		req.body.address.state = req.body.state
 		req.body.address.zip = req.body.zip
+
+		req.body.dishes = await Dish.find({_id:{$in:req.body.dishes}})
 
 		const newOrder = await Order.create(req.body)
 
@@ -86,6 +89,8 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 		req.body.address.city = req.body.city
 		req.body.address.state = req.body.state
 		req.body.address.zip = req.body.zip
+
+		req.body.dishes = await Dish.find({_id:{$in:req.body.dishes}})
 		
 		const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {new:true})
 

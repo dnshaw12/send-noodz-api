@@ -2,6 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const multer = require('multer')
 const MenuItem = require('../models/menuItem')
+const Ingredient = require('../models/ingredient')
 const fs = require('fs')
 const upload = multer({dest: 'uploads/'})
 
@@ -10,6 +11,10 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 	try {
 
 		console.log(req.body, '<<<< body in create menu item');
+
+		req.body.noodleType = await Ingredient.findById(req.body.noodleType)
+		req.body.protein = await Ingredient.findById(req.body.protein)
+		req.body.sauce = await Ingredient.findById(req.body.sauce)
 		
 		const newMenuItem = await MenuItem.create(req.body)
 

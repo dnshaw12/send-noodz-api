@@ -100,6 +100,8 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 	
 	try {
 
+		req.body.extraIngredients = await Ingredient.find({_id:{$in:req.body.extraIngredients}})
+
 		console.log(req.body, 'body in update dish!', req.params.id);
 		
 		const updatedDish = await Dish.findByIdAndUpdate(req.params.id, req.body, { new: true })
