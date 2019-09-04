@@ -35,13 +35,41 @@ router.get('/', async (req, res, next) => {
 			populate: [
 				{ path: 'protein'},
 				{ path: 'noodleType' },
-				{ path: 'baseIngredients' }
+				{ path: 'baseIngredients' },
+				{ path: 'sauce' }
 			]
 		})
 
 		res.status(200).send({
 			message: 'got all dishes',
 			data: dishes
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
+router.get('/:id', async (req, res, next) => {
+	try {
+
+		console.log(req.params.id);
+		
+		const dish = await Dish.findById(req.params.id).populate('extraIngredients').populate({
+			path: 'menuItemId',
+			populate: [
+				{ path: 'protein'},
+				{ path: 'noodleType' },
+				{ path: 'baseIngredients' },
+				{ path: 'sauce' }
+			]
+		})
+
+		console.log(dish);
+
+		res.status(200).send({
+			message: 'got a dish',
+			data: dish
 		})
 
 	} catch(err){
