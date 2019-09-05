@@ -9,10 +9,16 @@ const PORT 				= process.env.PORT || 3000;
 require('./db/db');
 
 app.use(cors({
-	origin: 'http://localhost:3000',
+	origin: ['http://localhost:3000', 'http://localhost:3001'],
 	credentials: true,
 	optionsSuccessStatus: 200
 }));
+
+// app.use(cors({
+// 	origin: 'http://localhost:3001',
+// 	credentials: true,
+// 	optionsSuccessStatus: 200
+// }));
 
 app.use(session({
 	secret: process.env.SECRET_STRING,

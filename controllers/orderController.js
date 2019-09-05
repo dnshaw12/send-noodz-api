@@ -48,6 +48,34 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+router.get('/active', async (req, res, next) => {
+	try {
+		
+		const orders = await Order.find({status: { $nin: ['archived', 'pending']}}).populate('userId', 
+				{
+					profilePic: 0,
+					password: 0
+				})
+			.populate({
+				path: 'dishes.menuItemId',
+				populate: [
+					{ path: 'protein'},
+					{ path: 'noodleType' },
+					{ path: 'baseIngredients' },
+					{ path: 'sauce' }
+				]
+			})
+
+		res.status(200).send({
+			message: 'got active orders',
+			data: orders
+		})
+
+	} catch(err){
+	  next(err);
+	}
+})
+
 // order id for testing : 5d6c565b3f623709acf7ff0e
 
 router.get('/:id', async (req, res, next) => {
@@ -134,6 +162,7 @@ router.get('/:userId/active', async (req, res, next) => {
 	}
 })
 
+
 router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 	try {
@@ -147,9 +176,22 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 		req.body.address.state = req.body.state
 		req.body.address.zip = req.body.zip
 		
-		const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {new:true})
+		let updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {new:true})
 
-		console.log(updatedOrder, 'updatedOrder');
+		updatedOrder = await Order.findById(req.params.id).populate('userId', 
+				{
+					profilePic: 0,
+					password: 0
+				})
+			.populate({
+				path: 'dishes.menuItemId',
+				populate: [
+					{ path: 'protein'},
+					{ path: 'noodleType' },
+					{ path: 'baseIngredients' },
+					{ path: 'sauce' }
+				]
+			})
 
 		res.status(200).send({
 			message: 'order has been updated successfully',
