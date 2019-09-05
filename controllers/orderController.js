@@ -9,6 +9,7 @@ const upload = multer({dest: 'uploads/'})
 router.post('/', upload.single('image'), async (req, res, next) => {
 
 	try {
+		console.log(req.body, 'body in order post');
 
 		req.body.address = {}
 
@@ -133,9 +134,10 @@ router.get('/:userId/active', async (req, res, next) => {
 	}
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 	try {
+		console.log(req.body, 'req.body in order put');
 
 		req.body.address = {}
 
@@ -144,10 +146,10 @@ router.put('/:id', async (req, res, next) => {
 		req.body.address.city = req.body.city
 		req.body.address.state = req.body.state
 		req.body.address.zip = req.body.zip
-
-		req.body.dishes = await Dish.find({_id:{$in:req.body.dishes}})
 		
 		const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {new:true})
+
+		console.log(updatedOrder, 'updatedOrder');
 
 		res.status(200).send({
 			message: 'order has been updated successfully',

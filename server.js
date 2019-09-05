@@ -14,12 +14,6 @@ app.use(cors({
 	optionsSuccessStatus: 200
 }));
 
-// const corsOptions = {
-//   origin: 'http://localhost:3000'
-// }
-
-// app.get('/users/',cors(corsOptions))
-
 app.use(session({
 	secret: process.env.SECRET_STRING,
 	resave: false,

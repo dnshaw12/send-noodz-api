@@ -35,7 +35,7 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 
 		await newIngredient.save()
 
-		console.log(newIngredient);
+		// console.log(newIngredient);
 
 		res.status(201).send({
 			message: `${newIngredient.name} have been created successfully!`,
@@ -56,7 +56,7 @@ router.get('/', async (req, res, next) => {
 	try {
 
 		const allIngredients = await Ingredient.find()
-		console.log(allIngredients);
+		// console.log(allIngredients);
 
 		res.status(200).send({
 			message: 'Successfully got all Ingredients',
@@ -90,7 +90,7 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 	
 	try {
 		
-		console.log('Ingredient put hit');
+		// console.log('Ingredient put hit');
 		
 		if (req.body.vegitarian === 'on') {
 			req.body.vegitarian = true
@@ -116,7 +116,7 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 		await updatedIngredient.save()
 
-		console.log(updatedIngredient);
+		// console.log(updatedIngredient);
 
 		res.status(200).send({
 			message: `${updatedIngredient.name} have been updated successfully!`,
