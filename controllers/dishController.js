@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
 	
 	try {
 
-		// console.log(req.body, 'body in dish post');
+		console.log(req.body, 'body in dish post');
 
 		req.body.extraIngredients = await Ingredient.find({_id:{$in:req.body.extraIngredients}})
 
