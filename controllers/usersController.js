@@ -34,9 +34,7 @@ router.post('/sign-up', upload.single('profilePic'), async (req, res, next) => {
 
 		await newUser.save()
 
-		const sendableResponse = newUser
-
-		delete sendableResponse.password
+		const sendableResponse = await User.findById(newUser._id,{profilePic: 0, password:0})
 
 		res.status(201).send({
 			message: 'User created successfully',
@@ -44,7 +42,6 @@ router.post('/sign-up', upload.single('profilePic'), async (req, res, next) => {
 		})
 
 	} catch(err){
-	  // res.send(err)
 	  next(err);
 	}
 
@@ -56,20 +53,20 @@ router.post('/login', upload.single('profilePic'), async (req, res, next) => {
 	try {
 		console.log('login hit', req.body);
 		
-		const foundUser = await User.findOne({'email': req.body.email})
-
-		console.log(foundUser,'foundUser');
-
-		console.log(foundUser);
+		const foundUser = await User.findOne({'email': req.body.email},{profilePic: 0})
 
 		if (foundUser) {
 			if (bcrypt.compareSync(req.body.password, foundUser.password)) {
 				req.session.userId = foundUser._id;
 	      	req.session.name = foundUser.name;
 
+	      	const sendableResponse = await User.findById(foundUser._id,{profilePic: 0, password:0})
+
+	      	console.log(sendableResponse, 'sendableResponse');
+
 	      	res.status(200).send({
 	      		message: 'user successfully logged in',
-	      		data: foundUser
+	      		data: sendableResponse
 	      	})
 			} else {
 				res.status(400).send({
@@ -111,7 +108,7 @@ router.get('/:id', async (req, res, next) => {
 	
 	try {
 		
-		const user = await User.findById(req.params.id, {password: 0})
+		const user = await User.findById(req.params.id, {password: 0, profilePic: 0})
 
 		res.status(200).send({
 			message:'successfully got user',
@@ -129,13 +126,10 @@ router.put('/:id', upload.single('profilePic'), async (req, res, next) => {
 	
 	try {
 
-		console.log('user put');
 
 		const currentUser = await User.findById(req.params.id)
 
 		req.body.address = {}
-		console.log(currentUser);
-		console.log(req.body);
 
 		req.body.address.addr1 = req.body.addr1
 		req.body.address.addr2 = req.body.addr2

@@ -175,6 +175,11 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 		req.body.address.city = req.body.city
 		req.body.address.state = req.body.state
 		req.body.address.zip = req.body.zip
+
+		if (req.body.dishes) {
+			req.body.dishes = await Dish.find({_id:{$in:req.body.dishes}})
+		}
+
 		
 		let updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {new:true})
 

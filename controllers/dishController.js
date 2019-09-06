@@ -13,13 +13,15 @@ router.post('/', async (req, res, next) => {
 	
 	try {
 
-		console.log(req.body, 'body in dish post');
+		// console.log(req.body, 'body in dish post');
 
 		req.body.extraIngredients = await Ingredient.find({_id:{$in:req.body.extraIngredients}})
 
 		// console.log(req.body.extraIngredients, 'extraIngredients');
 		
 		const newDish = await Dish.create(req.body)
+
+		// const dish
 
 		res.status(201).send({
 			message: 'dish successfully created',
