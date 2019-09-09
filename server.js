@@ -36,9 +36,7 @@ app.use('/menuItems', menuItemsController)
 app.use('/dishes', dishController)
 app.use('/orders', orderController)
 
-
 // extra middleware goes here
-
 
 app.listen(PORT, () => {
 	console.log('listening for port: ' + PORT);
