@@ -5,6 +5,8 @@ const session      	= require('express-session');
 const app         	= express();
 const cors 				= require('cors')
 const PORT 				= process.env.PORT || 8000;
+const ioPort 			= process.env.IO_PORT || 8001
+const io 				= require('socket.io')();
 
 require('./db/db');
 
@@ -36,7 +38,18 @@ app.use('/menuItems', menuItemsController)
 app.use('/dishes', dishController)
 app.use('/orders', orderController)
 
-// extra middleware goes here
+
+io.on('connection', (client) => {
+	console.log('user conneted io');
+	client.on('timer', (interval) => {
+		console.log('client on timer', interval);
+		setInterval(() => {
+			client.emit('timer', new Date())
+		}, interval)
+	})
+})
+
+io.listen(ioPort)
 
 app.listen(PORT, () => {
 	console.log('listening for port: ' + PORT);
