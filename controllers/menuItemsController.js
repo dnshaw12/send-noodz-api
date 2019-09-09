@@ -9,6 +9,8 @@ const upload = multer({dest: 'uploads/'})
 router.post('/', upload.single('image'), async (req, res, next) => {
 	
 	try {
+
+		req.body.baseIngredients = JSON.parse(req.body.baseIngredients)
 		
 		const newMenuItem = await MenuItem.create(req.body)
 
@@ -22,9 +24,11 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 
 		await newMenuItem.save()
 
+		const sendableResponse = await MenuItem.findById(newMenuItem._id,{image: 0}).populate('baseIngredients noodleType protein sauce')
+
 		res.status(201).send({
-			message: `${newMenuItem.name} have been created successfully!`,
-			data: newMenuItem
+			message: `${sendableResponse.name} have been created successfully!`,
+			data: sendableResponse
 		})
 
 
@@ -38,10 +42,10 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 router.get('/', async (req, res, next) => {
 	try {
 		
-		const menuItems = await MenuItem.find({},{image: 0}).populate('baseIngredients noodleType protein sauce')
+		const menuItems = await MenuItem.find({},{image: 0}).populate('baseIngredients noodleType protein sauce', '-image')
 
 		res.status(200).send({
-			mesage: 'get all mennu items success',
+			mesage: 'get all menu items success',
 			data: menuItems
 		})
 
@@ -53,6 +57,8 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:id', upload.single('image'), async (req, res, next) => {
 	try {
+
+		req.body.baseIngredients = JSON.parse(req.body.baseIngredients)
 		
 		const updatedMenuItem = await MenuItem.findByIdAndUpdate(req.params.id, req.body, {new: true})
 
@@ -66,9 +72,11 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 		await updatedMenuItem.save()
 
+		const sendableResponse = await MenuItem.findById(updatedMenuItem._id,{image: 0}).populate('baseIngredients noodleType protein sauce')
+
 		res.status(200).send({
-			message: `${updatedMenuItem.name} have been updated successfully!`,
-			data: updatedMenuItem
+			message: `${sendableResponse.name} have been updated successfully!`,
+			data: sendableResponse
 		})
 
 
