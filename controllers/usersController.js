@@ -51,7 +51,6 @@ router.post('/sign-up', upload.single('profilePic'), async (req, res, next) => {
 router.post('/login', upload.single('profilePic'), async (req, res, next) => {
 
 	try {
-		console.log('login hit', req.body);
 		
 		const foundUser = await User.findOne({'email': req.body.email},{profilePic: 0})
 

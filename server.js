@@ -1,12 +1,15 @@
 require('dotenv').config()
-const express 			= require('express');
 const bodyParser 		= require('body-parser');
 const session      	= require('express-session');
-const app         	= express();
 const cors 				= require('cors')
+const http 				= require("http")
 const PORT 				= process.env.PORT || 8000;
-const ioPort 			= process.env.IO_PORT || 8001
-const io 				= require('socket.io')();
+const socketIo 		= require('socket.io');
+
+const express 			= require('express');
+const app         	= express();
+const server 			= http.createServer(app)
+const io 				= socketIo(server)
 
 require('./db/db');
 
@@ -25,6 +28,13 @@ app.use(session({
 app.use(bodyParser.json());
 
 
+app.use((req, res, next) => {
+	req.io = io
+	req.socket = socketIo
+	next()
+})
+
+
 // CONTROLLERS GO HERE
 const ingredientsController = require('./controllers/ingredientsController')
 const usersController = require('./controllers/usersController')
@@ -38,19 +48,10 @@ app.use('/menuItems', menuItemsController)
 app.use('/dishes', dishController)
 app.use('/orders', orderController)
 
-
-io.on('connection', (client) => {
-	console.log('user conneted io');
-	client.on('timer', (interval) => {
-		console.log('client on timer', interval);
-		setInterval(() => {
-			client.emit('timer', new Date())
-		}, interval)
-	})
+io.on('connection', socket => {
+	console.log('user conneted io') 
 })
 
-io.listen(ioPort)
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log('listening for port: ' + PORT);
 })
