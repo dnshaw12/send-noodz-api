@@ -27,10 +27,21 @@ app.use(session({
 
 app.use(bodyParser.json());
 
-
+// 
 app.use((req, res, next) => {
 	req.io = io
 	req.socket = socketIo
+
+	if (req.get('origin') === process.env.USER_URL) {
+
+		req.user = 'user'
+
+	} else if (req.get('origin') === process.env.PREP_URL) {
+
+		req.user = 'prep'
+
+	}
+
 	next()
 })
 

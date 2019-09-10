@@ -180,10 +180,10 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 		}
 
 
-		if (req.body.status === 'received') {
-			console.log('io new order test');
+		if (req.body.status !== 'pending' && req.body.status !== 'archived' && req.user === 'prep') {
 
-			req.io.emit('new order', req.body)
+			req.io.emit('status update: ' + req.params.id, req.body.status)
+			req.io.emit('status update: ' + req.body.userId, req.body.status)
 
 		}
 		
@@ -203,6 +203,15 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 					{ path: 'sauce' }
 				]
 			})
+
+
+
+		if (req.body.status === 'received' && req.user === 'user') {
+			console.log('io new order test');
+
+			req.io.emit('new order', updatedOrder)
+
+		}
 
 		res.status(200).send({
 			message: 'order has been updated successfully',
