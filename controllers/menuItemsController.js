@@ -10,8 +10,6 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 	
 	try {
 
-		console.log(req.body.baseIngredients);
-
 		if (req.body.baseIngredients) {
 
 			req.body.baseIngredients = JSON.parse(req.body.baseIngredients)

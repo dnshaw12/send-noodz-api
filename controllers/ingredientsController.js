@@ -9,8 +9,6 @@ const upload = multer({dest: 'uploads/'})
 
 router.post('/', upload.single('image'), async (req, res, next) => {
 
-	console.log(req.body);
-
 	try {
 
 		const newIngredient = await Ingredient.create(req.body)
@@ -24,8 +22,6 @@ router.post('/', upload.single('image'), async (req, res, next) => {
 		}
 
 		await newIngredient.save()
-
-		// console.log(newIngredient);
 
 		res.status(201).send({
 			message: `${newIngredient.name} have been created successfully!`,
@@ -46,7 +42,6 @@ router.get('/', async (req, res, next) => {
 	try {
 
 		const allIngredients = await Ingredient.find({},{image: 0})
-		// console.log(allIngredients);
 
 		res.status(200).send({
 			message: 'Successfully got all Ingredients',
@@ -80,8 +75,6 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 	
 	try {
 		
-		// console.log('Ingredient put hit');
-		
 		if (req.body.vegitarian === 'on') {
 			req.body.vegitarian = true
 		} else {
@@ -105,8 +98,6 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 		}
 
 		await updatedIngredient.save()
-
-		// console.log(updatedIngredient);
 
 		res.status(200).send({
 			message: `${updatedIngredient.name} have been updated successfully!`,

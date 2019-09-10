@@ -13,11 +13,8 @@ router.post('/', async (req, res, next) => {
 	
 	try {
 
-		// console.log(req.body, 'body in dish post');
 
 		req.body.extraIngredients = await Ingredient.find({_id:{$in:req.body.extraIngredients}})
-
-		// console.log(req.body.extraIngredients, 'extraIngredients');
 		
 		const newDish = await Dish.create(req.body)
 
@@ -60,8 +57,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
 	try {
-
-		// console.log(req.params.id);
 		
 		const dish = await Dish.findById(req.params.id).populate('extraIngredients').populate({
 			path: 'menuItemId',
@@ -72,8 +67,6 @@ router.get('/:id', async (req, res, next) => {
 				{ path: 'sauce' }
 			]
 		})
-
-		// console.log(dish);
 
 		res.status(200).send({
 			message: 'got a dish',
@@ -105,8 +98,6 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 	try {
 
 		req.body.extraIngredients = await Ingredient.find({_id:{$in:req.body.extraIngredients}})
-
-		// console.log(req.body, 'body in update dish!', req.params.id);
 		
 		const updatedDish = await Dish.findByIdAndUpdate(req.params.id, req.body, { new: true })
 

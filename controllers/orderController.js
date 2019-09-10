@@ -165,7 +165,6 @@ router.get('/:userId/active', async (req, res, next) => {
 router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 	try {
-		// console.log(req.body, 'req.body in order put');
 
 		req.body.address = {}
 
@@ -207,7 +206,6 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 
 
 		if (req.body.status === 'received' && req.user === 'user') {
-			console.log('io new order test');
 
 			req.io.emit('new order', updatedOrder)
 
