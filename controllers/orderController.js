@@ -235,8 +235,5 @@ router.delete('/:id', async (req, res, next) => {
 	  next(err);
 	}
 })
-// 5d6ec84453c292187c1025c0 - byon
-// 5d6ec7f953c292187c1025be - cust. nood
-// 5d6ec7fe53c292187c1025bf - cust. protein
 
 module.exports = router
